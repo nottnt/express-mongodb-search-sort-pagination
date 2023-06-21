@@ -26,9 +26,9 @@ const generateSortObject = (sortStr) => {
     }
 }
 
-const generatePaginationObject = (page = 1, perPage = 10) => {
+const generatePaginationObject = (offset = 0, limit = 10) => {
     try {
-        return { limit: Number(perPage), skip: Number(perPage) * Number(page) }
+        return { limit: Number(limit), skip: Number(offset) }
     } catch(e) {
         return { limit: 10, skip: 0 }
     }
