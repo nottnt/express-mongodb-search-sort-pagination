@@ -11,10 +11,11 @@ app.get("/users", async (request, response) => {
     try {
         const { query } = request
         let users = []
-        const count =  await userModel.countDocuments({})
+        let count = 0
 
         if (isEmpty(query)) {
             users = await userModel.find({}).limit(10);
+            count = await userModel.countDocuments({})
         } else {
             const { search, sort } = query
             const searchObj = generateSearchObj(search)
@@ -22,6 +23,7 @@ app.get("/users", async (request, response) => {
             const { limit, skip } = generatePaginationObject(query.offset, query.limit)
 
             users = await userModel.find(searchObj).sort(sortObj).limit(limit).skip(skip);
+            count = await userModel.find(searchObj).countDocuments({})
         }
 
         response.send({
@@ -37,10 +39,11 @@ app.get("/movies", async (request, response) => {
     try {
         const { query } = request
         let movies = []
-        const count = await movieModel.countDocuments({})
+        let count = 0
 
         if (isEmpty(query)) {
             movies = await movieModel.find({}).limit(10);
+            count = await movieModel.countDocuments({})
         } else {
             const { search, sort } = query
             const searchObj = generateSearchObj(search)
@@ -48,6 +51,7 @@ app.get("/movies", async (request, response) => {
             const { limit, skip } = generatePaginationObject(query.offset, query.limit)
 
             movies = await movieModel.find(searchObj).sort(sortObj).limit(limit).skip(skip);
+            count = await movieModel.find(searchObj).countDocuments({})
         }
 
         response.send({
